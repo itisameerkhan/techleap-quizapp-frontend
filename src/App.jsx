@@ -3,10 +3,13 @@ import "./index.scss";
 import { useEffect } from "react";
 import axios from "axios";
 import Header from "./components/Header/Header";
+import { useDispatch } from "react-redux";
+import { addUser } from "./utils/userSlice";
 
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const authenticateFunction = async () => {
     try {
@@ -18,6 +21,13 @@ const App = () => {
       if (!response.data.success) {
         navigate("/");
       } else {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/user/get/info`,
+          { withCredentials: true }
+        );
+
+        dispatch(addUser(response.data.data));
+
         if (location.pathname === "/") {
           navigate("/home");
         } else {
@@ -30,9 +40,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log("authentciate function called");
     authenticateFunction();
-  },[]);
+  }, []);
 
   return (
     <div className="app">

@@ -3,6 +3,8 @@ import "./Login.scss";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../../utils/userSlice";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,6 +14,7 @@ const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setUser({
@@ -37,7 +40,7 @@ const Login = () => {
           return;
         }
 
-        console.log(response);
+        dispatch(addUser(response.data.data))
 
         navigate("/home");
       } else {
@@ -61,6 +64,8 @@ const Login = () => {
 
           return;
         }
+
+        dispatch(addUser(response.data.data))
 
         navigate("/home");
       }

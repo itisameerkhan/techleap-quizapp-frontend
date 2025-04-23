@@ -5,6 +5,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore.js";
+import AddQuiz from "./pages/AddQuiz/AddQuiz.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -23,9 +26,15 @@ const appRouter = createBrowserRouter([
         path: "/dashboard",
         element: <Dashboard />,
       },
+      {
+        path: "/add-quiz",
+        element: <AddQuiz />,
+      },
     ],
   },
 ]);
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={appRouter} />
+  <Provider store={appStore}>
+    <RouterProvider router={appRouter} />
+  </Provider>
 );
