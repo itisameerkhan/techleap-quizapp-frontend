@@ -24,7 +24,7 @@ const Login = () => {
     try {
       if (isLogin) {
         const response = await axios.post(
-          "http://localhost:8080/user/login",
+          `${import.meta.env.VITE_BASE_URL}/user/login`,
           {
             email: user.email,
             password: user.password,
@@ -42,7 +42,7 @@ const Login = () => {
         navigate("/home");
       } else {
         const response = await axios.post(
-          "http://localhost:8080/user/new",
+          `${import.meta.env.VITE_BASE_URL}/user/new`,
           {
             name: user.name,
             email: user.email,
@@ -68,26 +68,6 @@ const Login = () => {
       console.log(e);
     }
   };
-
-  const authenticateFunction = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/user/authenticate",
-        { withCredentials: true }
-      );
-
-      if(response.data.success) {
-        navigate("/home");
-      }
-      
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    authenticateFunction();
-  }, []);
 
   return (
     <div className="login">
