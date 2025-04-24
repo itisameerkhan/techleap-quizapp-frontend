@@ -37,10 +37,10 @@
 
 .h-1-1-d {
     position: relative;
-    z-index: -99;
-
+    
     div {
         position: absolute;
+        z-index: 99;
         border: 2px solid #404040;
         background-color: white;
         color: black;
