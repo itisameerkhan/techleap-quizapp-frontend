@@ -31,7 +31,7 @@ const Header = () => {
     <div className="header">
       <div className="header-1">
         <Link to={"/home"}>
-          <h1 className="logo-main">Quixx</h1>
+          <h1 id="logo-main">Quixx</h1>
         </Link>
         <div className="h-1-1">
           <p>welcome, {user?.name || "loading..."}</p>
