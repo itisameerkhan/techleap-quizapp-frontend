@@ -1,13 +1,41 @@
+import { useState, useEffect } from "react";
 import "./Home.scss";
+import axios from "axios";
+import Loader from "../../components/Loader/Loader";
+import QuizHead from "../../components/QuizHead/QuizHead";
 
 const Home = () => {
+  const [quiz, setQuiz] = useState(null);
+
+  const fetchDetails = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/get-quiz`,
+        { withCredentials: true }
+      );
+
+      setQuiz(response.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  if (!quiz) return <Loader />;
+
   return (
     <div className="home">
-        <div className="home-main">
-         <h1>home</h1>
-        </div>
+      <h1>Quiz</h1>
+      <div className="home-main">
+        {quiz.map((data) => (
+          <QuizHead key={data._id} data={data} />
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

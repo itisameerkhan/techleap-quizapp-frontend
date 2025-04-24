@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore.js";
 import AddQuiz from "./pages/AddQuiz/AddQuiz.jsx";
+import Quiz from "./pages/Quiz/Quiz.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/add-quiz",
         element: <AddQuiz />,
+      },
+      {
+        path: "/quiz/:questionId",
+        element: <Quiz />,
       },
     ],
   },
