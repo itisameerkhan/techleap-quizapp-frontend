@@ -22,7 +22,7 @@ const Quiz = () => {
         { withCredentials: true }
       );
       setQuestions(response.data.data.content);
-      dispatch(addQuiz(response.data.data.content));
+      dispatch(addQuiz(response.data.data));
     } catch (e) {
       console.log(e);
     }

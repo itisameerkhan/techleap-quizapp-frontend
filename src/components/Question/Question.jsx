@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./Question.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import Result from "../Result/Result";
+import { addAnswers } from "../../utils/answerSlice";
 
 const Question = ({ data, setQuestionIndex, questionIndex }) => {
   const [colors, setColors] = useState({
@@ -10,8 +12,13 @@ const Question = ({ data, setQuestionIndex, questionIndex }) => {
     c4: "#a100ff",
   });
 
+  const dispatch = useDispatch();
+  const currentQuizzes = useSelector((store) => store.quiz);
+
   const [answers, setAnswers] = useState({
     buttonClicked: "",
+    result: false,
+    questionId: currentQuizzes._id,
     0: "",
     1: "",
     2: "",
@@ -25,7 +32,6 @@ const Question = ({ data, setQuestionIndex, questionIndex }) => {
     9: "",
   });
 
-  const currentQuizzes = useSelector((store) => store.quiz);
 
   const handleClick = (e) => {
     if (e.target.name == "1") {
@@ -77,10 +83,62 @@ const Question = ({ data, setQuestionIndex, questionIndex }) => {
     });
 
     setQuestionIndex({ index: questionIndex.index + 1 });
+
+    if (answers[questionIndex.index] != "") {
+      const answer = answers[questionIndex.index + 1];
+      const currentQuiz = currentQuizzes.content[questionIndex.index + 1];
+
+      const option =
+        answer == currentQuiz.option1
+          ? 1
+          : answer == currentQuiz.option2
+          ? 2
+          : answer == currentQuiz.option3
+          ? 3
+          : answer == currentQuiz.option4
+          ? 4
+          : null;
+
+      if (option == 1) {
+        setColors({
+          c1: "#1B56FD",
+          c2: "#a100ff",
+          c3: "#a100ff",
+          c4: "#a100ff",
+        });
+      } else if (option == 2) {
+        setColors({
+          c2: "#1B56FD",
+          c1: "#a100ff",
+          c3: "#a100ff",
+          c4: "#a100ff",
+        });
+      } else if (option == 3) {
+        setColors({
+          c3: "#1B56FD",
+          c2: "#a100ff",
+          c1: "#a100ff",
+          c4: "#a100ff",
+        });
+      } else if (option == 4) {
+        setColors({
+          c4: "#1B56FD",
+          c2: "#a100ff",
+          c3: "#a100ff",
+          c1: "#a100ff",
+        });
+      }
+    }
   };
+  
 
   const handleSubmit = async () => {
-    console.log(answers);
+    setAnswers({
+      ...answers,
+      result: true,
+    });
+    
+    dispatch(addAnswers(answers));
   };
 
   const handleLeftClick = () => {
@@ -92,7 +150,7 @@ const Question = ({ data, setQuestionIndex, questionIndex }) => {
 
     if (answers[questionIndex.index] != "") {
       const answer = answers[questionIndex.index - 1];
-      const currentQuiz = currentQuizzes[questionIndex.index - 1];
+      const currentQuiz = currentQuizzes.content[questionIndex.index - 1];
 
       const option =
         answer == currentQuiz.option1
@@ -151,7 +209,7 @@ const Question = ({ data, setQuestionIndex, questionIndex }) => {
 
     if (answers[questionIndex.index] != "") {
       const answer = answers[questionIndex.index + 1];
-      const currentQuiz = currentQuizzes[questionIndex.index  + 1];
+      const currentQuiz = currentQuizzes.content[(questionIndex.index + 1).toString()];
 
       const option =
         answer == currentQuiz.option1
@@ -197,6 +255,8 @@ const Question = ({ data, setQuestionIndex, questionIndex }) => {
 
     setQuestionIndex({ index: questionIndex.index + 1 });
   };
+
+  if (answers.result) return <Result />;
 
   return (
     <div className="question-main">
