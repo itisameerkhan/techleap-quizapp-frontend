@@ -28,7 +28,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h1>Quiz</h1>
       <div className="home-main">
         {quiz.map((data) => (
           <QuizHead key={data._id} data={data} />

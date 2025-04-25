@@ -4,6 +4,8 @@ import "./Quiz.scss";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../components/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { addQuiz } from "../../utils/quizSlice";
 
 const Quiz = () => {
   const { questionId } = useParams();
@@ -11,6 +13,7 @@ const Quiz = () => {
   const [questionIndex, setQuestionIndex] = useState({
     index: 0,
   });
+  const dispatch = useDispatch();
 
   const fetchQuiz = async () => {
     try {
@@ -19,6 +22,7 @@ const Quiz = () => {
         { withCredentials: true }
       );
       setQuestions(response.data.data.content);
+      dispatch(addQuiz(response.data.data.content));
     } catch (e) {
       console.log(e);
     }
