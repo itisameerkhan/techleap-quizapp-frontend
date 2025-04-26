@@ -41,9 +41,11 @@ const Header = () => {
               <p>
                 <i className="fa-solid fa-user"></i>profile
               </p>
-              <p>
-                <i className="fa-solid fa-chart-simple"></i> Dashboard
-              </p>
+              <Link to={"/dashboard"}>
+                <p>
+                  <i className="fa-solid fa-chart-simple"></i> Dashboard
+                </p>
+              </Link>
               <Link to={"/add-quiz"}>
                 <p>
                   <i className="fa-solid fa-notes-medical"></i> Add Quiz

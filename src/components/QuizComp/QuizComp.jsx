@@ -13,33 +13,26 @@ const QuizComp = ({ data, index, questionId }) => {
 
   const yourAnswers = useSelector((store) => store.answer);
 
-  const fetchYourAnswer = () => {
-    const indexAnswer = yourAnswers[index.toString()];
-
-    if (indexAnswer == data.option1) {
-      setColors({
-        ...colors,
-        o1: "red",
-      });
-    } else if (indexAnswer == data.option2) {
-      setColors({
-        ...colors,
-        o2: "red",
-      });
-    } else if (indexAnswer == data.option3) {
-      setColors({
-        ...colors,
-        o3: "red",
-      });
-    } else if (indexAnswer == data.option4) {
-      setColors({
-        ...colors,
-        o4: "red",
-      });
-    }
-  };
-
   const fetchAnswers = async () => {
+    const colorsValue = {
+      o1: "black",
+      o2: "black",
+      o3: "black",
+      o4: "black",
+    };
+
+    const indexAnswer1 = yourAnswers[index.toString()];
+
+    if (indexAnswer1 == data.option1) {
+      colorsValue.o1 = "red";
+    } else if (indexAnswer1 == data.option2) {
+      colorsValue.o2 = "red";
+    } else if (indexAnswer1 == data.option3) {
+      colorsValue.o3 = "red";
+    } else if (indexAnswer1 == data.option4) {
+      colorsValue.o4 = "red";
+    }
+
     const response = await axios.get(
       `${import.meta.env.VITE_BASE_URL}/get-answer/${questionId}`
     );
@@ -48,32 +41,21 @@ const QuizComp = ({ data, index, questionId }) => {
     const indexAnswer = correctAnswers[index.toString()];
 
     if (indexAnswer == data.option1) {
-      setColors({
-        ...colors,
-        o1: "green",
-      });
+      colorsValue.o1 = "green";
     } else if (indexAnswer == data.option2) {
-      setColors({
-        ...colors,
-        o2: "green",
-      });
+      colorsValue.o2 = "green";
     } else if (indexAnswer == data.option3) {
-      setColors({
-        ...colors,
-        o3: "green",
-      });
+      colorsValue.o3 = "green";
     } else if (indexAnswer == data.option4) {
-      setColors({
-        ...colors,
-        o4: "green",
-      });
+      colorsValue.o4 = "green";
     }
+
+    setColors(colorsValue);
   };
 
   useEffect(() => {
-      fetchAnswers();
-      fetchYourAnswer();
-    }, []);
+    fetchAnswers();
+  }, []);
 
   return (
     <div className="quiz-comp">

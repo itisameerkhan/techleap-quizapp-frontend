@@ -35,6 +35,10 @@ const appRouter = createBrowserRouter([
         path: "/quiz/:questionId",
         element: <Quiz />,
       },
+      {
+        path:"/dashboard",
+        element:<Dashboard />
+      }
     ],
   },
 ]);

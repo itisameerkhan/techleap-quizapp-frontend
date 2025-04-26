@@ -10,6 +10,7 @@ const Result = () => {
   const [data, setData] = useState(null);
   const questionMain = useSelector((store) => store.quiz);
   const questions = questionMain.content;
+  const user = useSelector((store) => store.user);
 
   const fetchAnswers = async () => {
     const response = await axios.post(
@@ -21,12 +22,23 @@ const Result = () => {
     );
 
     setData(response.data);
+
+    const userResponse = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/save-dashboard`,
+      {
+        marks: response.data.numberOfCorrect,
+        questionId: questionMain._id,
+        userId: user._id,
+        name: user.name,
+      }
+    );
+
+    console.log(userResponse);
   };
 
   useEffect(() => {
     fetchAnswers();
   }, []);
-
 
   return (
     <div className="result">
